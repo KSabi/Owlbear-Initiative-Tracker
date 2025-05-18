@@ -22,7 +22,8 @@ export function setupInitiativeList(element) {
           MaxHP: metadata.MaxHP,
           TempHP: metadata.TempHP,
           ShowHP: metadata.ShowHP,
-          ShowHPBar: metadata.ShowHPBar
+          ShowHPBar: metadata.ShowHPBar,
+          visible: item.visible
         });
       }
     }

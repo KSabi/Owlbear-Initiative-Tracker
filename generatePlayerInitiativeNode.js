@@ -2,6 +2,7 @@ import { createHPBarSVG } from "./createHPBarSVG";
 
 export function generatePlayerInitiativeNode(initiativeItem) {
   //var htmlContent = `<tr><td rowspan=2> ${initiativeItem.initiative}</td>`;
+  if(!initiativeItem.visible) {return "";}
   let htmlContent = `<td rowspan=2><img src=${initiativeItem.imageUrl} alt=${initiativeItem.name} style="width:50px;height:50px;"></td>`;
   htmlContent += `<td style="text-align:left">${initiativeItem.name} (${initiativeItem.initiative})</td>`;
   if(initiativeItem.ShowHP){

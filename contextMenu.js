@@ -38,7 +38,7 @@ export function setupContextMenu() {
                 MaxHP : 4,
                 TempHP : 0,
                 ShowHP : false,
-                ShowHPBar : true
+                ShowHPBar : true,
               };
             }
           });
