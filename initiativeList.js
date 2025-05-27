@@ -1,9 +1,10 @@
-import OBR from "@owlbear-rodeo/sdk";
+import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import { generatePlayerInitiativeNode } from "./generatePlayerInitiativeNode";
 import { generateGMInitiativeNode } from "./generateGMInitiativeNode";
 import { updateData } from "./updateData";
 
 const ID = "com.KSabi.initiative-tracker";
+var curTurn = 0;
 
 export function setupInitiativeList(element) {
   const renderList = (items) => {
@@ -21,9 +22,11 @@ export function setupInitiativeList(element) {
           HP: metadata.HP,
           MaxHP: metadata.MaxHP,
           TempHP: metadata.TempHP,
+          ArmorClass: metadata.ArmorClass,
           ShowHP: metadata.ShowHP,
           ShowHPBar: metadata.ShowHPBar,
-          visible: item.visible
+          visible: item.visible,
+          isTurn: metadata.IsTurn
         });
       }
     }
@@ -35,15 +38,21 @@ export function setupInitiativeList(element) {
     
     OBR.player.getRole().then((role) => {
       const nodes = [];
+      let curRecord = 0;
       for (const initiativeItem of sortedItems) {
+        //const node = document.createElement("table");
+        //console.log("Current Item:", initiativeItem.name, initiativeItem.isTurn)
         const node = document.createElement("table");
-      //node.innerHTML = `${initiativeItem.name} (${initiativeItem.initiative})`;
         if(role === "GM"){
             node.innerHTML = generateGMInitiativeNode(initiativeItem);
         }else{
             node.innerHTML = generatePlayerInitiativeNode(initiativeItem);
         }
+        if(initiativeItem.isTurn) {
+          node.style = "background-color:purple";
+        }
         nodes.push(node);
+        curRecord++;
       }
       element.replaceChildren(...nodes);
       updateData(element.querySelectorAll("input"));

@@ -49,6 +49,9 @@ export function updateData(elements) {
                     case "temphp":
                         data.TempHP = Number(value);
                         break;
+                    case "ac":
+                        data.ArmorClass = Number(value);
+                        break;
                     case "showhp":
                         data.ShowHP = !data.ShowHP;
                         break;

@@ -37,8 +37,10 @@ export function setupContextMenu() {
                 HP : 4,
                 MaxHP : 4,
                 TempHP : 0,
+                ArmorClass: 10,
                 ShowHP : false,
                 ShowHPBar : true,
+                IsTurn : false
               };
             }
           });

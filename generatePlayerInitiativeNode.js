@@ -22,7 +22,7 @@ export function generatePlayerInitiativeNode(initiativeItem) {
       htmlContent += "</td></tr>"
     }
   }else{
-    htmlContent += '<td style="text-align:right">???/???</td></tr>';
+    htmlContent += '<td style="text-align:right"></td></tr>';
   }
   if(initiativeItem.ShowHPBar){
     htmlContent += '<tr><td colspan="2">';
