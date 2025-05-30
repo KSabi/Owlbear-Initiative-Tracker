@@ -13,7 +13,7 @@ export function updateData(elements) {
         OBR.scene.items.updateItems([itemID], (items) => {
             for (let item of items){
                 let data = item.metadata[`${ID}/metadata`];
-                console.log(`Element: ${itemField}, New Value: ${value}`);
+                //console.log(`Element: ${itemField}, New Value: ${value}`);
                 switch (itemField) {
                     case "initiative":
                         data.initiative = value;

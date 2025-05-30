@@ -4,7 +4,6 @@ import { generateGMInitiativeNode } from "./generateGMInitiativeNode";
 import { updateData } from "./updateData";
 
 const ID = "com.KSabi.initiative-tracker";
-var curTurn = 0;
 
 export function setupInitiativeList(element) {
   const renderList = (items) => {
@@ -38,7 +37,17 @@ export function setupInitiativeList(element) {
     
     OBR.player.getRole().then((role) => {
       const nodes = [];
-      let curRecord = 0;
+      if (role === "GM") {
+        const prevButton = document.createElement("button");
+        prevButton.textContent = "Previous";
+        prevButton.addEventListener("click", () => prevItem(sortedItems));
+
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "Next";
+        nextButton.addEventListener("click", () => nextItem(sortedItems));
+
+        nodes.push(prevButton, nextButton);
+      }
       for (const initiativeItem of sortedItems) {
         //const node = document.createElement("table");
         //console.log("Current Item:", initiativeItem.name, initiativeItem.isTurn)
@@ -49,14 +58,58 @@ export function setupInitiativeList(element) {
             node.innerHTML = generatePlayerInitiativeNode(initiativeItem);
         }
         if(initiativeItem.isTurn) {
-          node.style = "background-color:purple";
+          node.style = "background-image: linear-gradient(violet, purple);border-radius:10px";
         }
         nodes.push(node);
-        curRecord++;
       }
       element.replaceChildren(...nodes);
       updateData(element.querySelectorAll("input"));
     });
   };
   OBR.scene.items.onChange(renderList);
+}
+
+function nextItem(sortedList) {
+  let index = sortedList.findIndex((i) => i.isTurn)
+  let oldid = "";
+  let newid = "";
+  if(index < 0) {
+    newid = sortedList[0].id; //No item is defined as current turn; set to the first.
+  } else {
+    oldid = sortedList[index].id;
+    index = index < sortedList.length - 1 ? index + 1 : 0;
+    newid = sortedList[index].id;
+  }
+  if(oldid !== "") {
+    OBR.scene.items.updateItems([oldid], (items) => {
+      items[0].metadata[`${ID}/metadata`].IsTurn = false;
+      return;
+    });
+  }
+  OBR.scene.items.updateItems([newid], (items) => {
+    items[0].metadata[`${ID}/metadata`].IsTurn = true
+  });
+  return;
+}
+
+function prevItem(sortedList) {
+  let index = sortedList.findIndex((i) => i.isTurn)
+  let oldid = "";
+  let newid = "";
+  if(index < 0) {
+    newid = sortedList[0].id; // If isTurn is not found, set to first
+  } else {
+    oldid = sortedList[index].id; //Get current turn to set to false
+    index = index >  0 ? index - 1 : sortedList.length - 1; //Get Previous item in list
+    newid = sortedList[index].id;
+  }
+  if (oldid !== "") {
+    OBR.scene.items.updateItems([oldid], (items) => {
+      items[0].metadata[`${ID}/metadata`].IsTurn = false
+    });
+  }
+  OBR.scene.items.updateItems([newid], (items) => {
+    items[0].metadata[`${ID}/metadata`].IsTurn = true
+  });
+  return;
 }
