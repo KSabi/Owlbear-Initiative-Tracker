@@ -46,7 +46,11 @@ export function setupInitiativeList(element) {
         nextButton.textContent = "Next";
         nextButton.addEventListener("click", () => nextItem(sortedItems));
 
-        nodes.push(prevButton, nextButton);
+        const resetButton = document.createElement("button");
+        resetButton.textContent = "Reset";
+        resetButton.addEventListener("click",() => resetCombat(sortedItems));
+
+        nodes.push(prevButton, nextButton, resetButton);
       }
       for (const initiativeItem of sortedItems) {
         //const node = document.createElement("table");
@@ -112,4 +116,12 @@ function prevItem(sortedList) {
     items[0].metadata[`${ID}/metadata`].IsTurn = true
   });
   return;
+}
+
+function resetCombat(sortedList) {
+  OBR.scene.items.updateItems((i) => sortedList.find((si) => si.id == i.id), (items) => {
+    for (let item of items) {
+      item.metadata[`${ID}/metadata`].IsTurn = false;
+    }
+  })
 }
