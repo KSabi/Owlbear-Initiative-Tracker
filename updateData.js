@@ -20,6 +20,7 @@ export function updateData(elements) {
                         break;
                     case "name":
                         data.name = value;
+                        item.text.plainText = value;
                         break;
                     case "hp":
                         let curhp = Number(data.HP);

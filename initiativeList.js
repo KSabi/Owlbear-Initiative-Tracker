@@ -16,7 +16,7 @@ export function setupInitiativeList(element) {
         initiativeItems.push({
           id: item.id,
           initiative: metadata.initiative,
-          name: item.name,
+          name: item.text.plainText || item.name,
           imageUrl: item.image.url,
           HP: metadata.HP,
           MaxHP: metadata.MaxHP,
